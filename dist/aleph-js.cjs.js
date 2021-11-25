@@ -13,7 +13,7 @@ var nacl$1 = require('tweetnacl');
 var base58 = require('bs58');
 var createHash = require('create-hash');
 var avalanche$1 = require('avalanche');
-var FormData = require('form-data');
+var FormDataNode = require('form-data');
 var eciesjs = require('eciesjs');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -23,7 +23,7 @@ var cosmosjs__default = /*#__PURE__*/_interopDefaultLegacy(cosmosjs);
 var nacl__default = /*#__PURE__*/_interopDefaultLegacy(nacl$1);
 var base58__default = /*#__PURE__*/_interopDefaultLegacy(base58);
 var createHash__default = /*#__PURE__*/_interopDefaultLegacy(createHash);
-var FormData__default = /*#__PURE__*/_interopDefaultLegacy(FormData);
+var FormDataNode__default = /*#__PURE__*/_interopDefaultLegacy(FormDataNode);
 
 var DEFAULT_SERVER = 'https://api1.aleph.im';
 
@@ -719,6 +719,8 @@ var avalanche = /*#__PURE__*/Object.freeze({
 
 const shajs$1 = require('sha.js');
 
+const isBrowser = Boolean(FormData);
+
 async function put_content(
   message, content, inline_requested, storage_engine, api_server) {
 
@@ -777,8 +779,14 @@ async function storage_push (
 
 async function ipfs_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let formData = new FormData__default['default']();
-  formData.append('file', fileobject, 'db.json');
+  let formData = null;
+  if (isBrowser) {
+    formData = new FormData();
+    formData.append('file', fileobject);
+  } else {
+    formData = new FormDataNode__default['default']();
+    formData.append('file', fileobject, 'random.txt'); // FileName is required but doesn't have effect
+  }
 
   let response = await axios__default['default'].post( `${api_server}/api/v0/ipfs/add_file`,
     formData,
@@ -798,8 +806,14 @@ async function ipfs_push_file (
 
 async function storage_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let formData = new FormData__default['default']();
-  formData.append('file', fileobject, 'db.json');
+  let formData = null;
+  if (isBrowser) {
+    formData = new FormData();
+    formData.append('file', fileobject);
+  } else {
+    formData = new FormDataNode__default['default']();
+    formData.append('file', fileobject, 'random.txt'); // FileName is required but doesn't have effect
+  }
 
   let response = await axios__default['default'].post( `${api_server}/api/v0/storage/add_file`,
     formData,
