@@ -9,6 +9,7 @@ import nacl$1 from 'tweetnacl';
 import base58 from 'bs58';
 import createHash from 'create-hash';
 import { BinTools, Avalanche } from 'avalanche';
+import FormData from 'form-data';
 import { decrypt as decrypt$2, utils, encrypt as encrypt$2 } from 'eciesjs';
 
 var DEFAULT_SERVER = 'https://api1.aleph.im';
@@ -704,8 +705,6 @@ var avalanche = /*#__PURE__*/Object.freeze({
 });
 
 const shajs$1 = require('sha.js');
-let _FormData = FormData||null;
-if (!_FormData) _FormData = require('form-data');
 
 async function put_content(
   message, content, inline_requested, storage_engine, api_server) {
@@ -765,11 +764,11 @@ async function storage_push (
 
 async function ipfs_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let _FormData = new _FormData();
-  _FormData.append('file', fileobject);
+  let formData = new FormData();
+  formData.append('file', fileobject);
 
   let response = await axios.post( `${api_server}/api/v0/ipfs/add_file`,
-    _FormData,
+    formData,
     {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -786,14 +785,14 @@ async function ipfs_push_file (
 
 async function storage_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let _FormData = new _FormData();
-  _FormData.append('file', fileobject);
+  let formData = new FormData();
+  formData.append('file', fileobject);
 
   let response = await axios.post( `${api_server}/api/v0/storage/add_file`,
-    _FormData,
+    formData,
     {
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${_FormData._boundary}`
+        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
       }
     }
   );

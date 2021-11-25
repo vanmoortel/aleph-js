@@ -7,8 +7,7 @@ import * as substrate from './substrate'
 import * as solana from './solana'
 import * as avalanche from './avalanche'
 const shajs = require('sha.js')
-let _FormData = FormData||null
-if (!_FormData) _FormData = require('form-data')
+import FormData from 'form-data'
 
 export async function put_content(
   message, content, inline_requested, storage_engine, api_server) {
@@ -68,11 +67,11 @@ export async function storage_push (
 
 export async function ipfs_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let _FormData = new _FormData()
-  _FormData.append('file', fileobject)
+  let formData = new FormData()
+  formData.append('file', fileobject)
 
   let response = await axios.post( `${api_server}/api/v0/ipfs/add_file`,
-    _FormData,
+    formData,
     {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -89,14 +88,14 @@ export async function ipfs_push_file (
 
 export async function storage_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let _FormData = new _FormData()
-  _FormData.append('file', fileobject)
+  let formData = new FormData()
+  formData.append('file', fileobject)
 
   let response = await axios.post( `${api_server}/api/v0/storage/add_file`,
-    _FormData,
+    formData,
     {
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${_FormData._boundary}`
+        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
       }
     }
   )
