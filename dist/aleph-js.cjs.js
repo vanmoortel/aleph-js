@@ -719,7 +719,7 @@ var avalanche = /*#__PURE__*/Object.freeze({
 
 const shajs$1 = require('sha.js');
 
-const isBrowser = Boolean(FormData);
+const isBrowser = typeof FormData !== 'undefined';
 
 async function put_content(
   message, content, inline_requested, storage_engine, api_server) {

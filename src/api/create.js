@@ -9,7 +9,7 @@ import * as avalanche from './avalanche'
 import FormDataNode from 'form-data'
 const shajs = require('sha.js')
 
-const isBrowser = Boolean(FormData)
+const isBrowser = typeof FormData !== 'undefined'
 
 export async function put_content(
   message, content, inline_requested, storage_engine, api_server) {
