@@ -704,8 +704,8 @@ var avalanche = /*#__PURE__*/Object.freeze({
 });
 
 const shajs$1 = require('sha.js');
-let FormData = FormData;
-if (!FormData) FormData = require('form-data');
+let _FormData = FormData||null;
+if (!_FormData) _FormData = require('form-data');
 
 async function put_content(
   message, content, inline_requested, storage_engine, api_server) {
@@ -765,11 +765,11 @@ async function storage_push (
 
 async function ipfs_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let formData = new FormData();
-  formData.append('file', fileobject);
+  let _FormData = new _FormData();
+  _FormData.append('file', fileobject);
 
   let response = await axios.post( `${api_server}/api/v0/ipfs/add_file`,
-    formData,
+    _FormData,
     {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -786,14 +786,14 @@ async function ipfs_push_file (
 
 async function storage_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
-  let formData = new FormData();
-  formData.append('file', fileobject);
+  let _FormData = new _FormData();
+  _FormData.append('file', fileobject);
 
   let response = await axios.post( `${api_server}/api/v0/storage/add_file`,
-    formData,
+    _FormData,
     {
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
+        'Content-Type': `multipart/form-data; boundary=${_FormData._boundary}`
       }
     }
   );
