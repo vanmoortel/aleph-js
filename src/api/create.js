@@ -7,6 +7,8 @@ import * as substrate from './substrate'
 import * as solana from './solana'
 import * as avalanche from './avalanche'
 const shajs = require('sha.js')
+let FormData = FormData
+if (!FormData) FormData = require('form-data')
 
 export async function put_content(
   message, content, inline_requested, storage_engine, api_server) {

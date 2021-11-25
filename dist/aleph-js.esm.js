@@ -704,6 +704,8 @@ var avalanche = /*#__PURE__*/Object.freeze({
 });
 
 const shajs$1 = require('sha.js');
+let FormData = FormData;
+if (!FormData) FormData = require('form-data');
 
 async function put_content(
   message, content, inline_requested, storage_engine, api_server) {
