@@ -68,7 +68,7 @@ export async function storage_push (
 export async function ipfs_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
   let formData = new FormData()
-  formData.append('file', fileobject)
+  formData.append('file', fileobject, 'db.json')
 
   let response = await axios.post( `${api_server}/api/v0/ipfs/add_file`,
     formData,
@@ -89,7 +89,7 @@ export async function ipfs_push_file (
 export async function storage_push_file (
   fileobject, {api_server = DEFAULT_SERVER} = {}) {
   let formData = new FormData()
-  formData.append('file', fileobject)
+  formData.append('file', fileobject, 'db.json')
 
   let response = await axios.post( `${api_server}/api/v0/storage/add_file`,
     formData,
